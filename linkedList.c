@@ -88,15 +88,35 @@ void traverseList(node* head, void (*cb)(node* node)){
     cursor = cursor -> next;
   }
 }
+
+double* sortWithLL(double arr[], int size){
+  double* returnedArray = malloc(sizeof(double)*size);
+  node* head = create(-DBL_MAX, NULL);
+  for(int x = 0; x<size; x++){
+    head = append(head, arr[x]);
+  }
+  node* cursor = head;
+  for(int y = 0; y<count(head); y++){
+    cursor = cursor -> next;
+    returnedArray[y] = cursor -> value;
+  }
+
+  return returnedArray;
+}
+double* initArray(int size){
+  double* arr = malloc(sizeof(double)*size);
+  for(int x = 0; x<size; x++){
+    printf("arr[%d] = ", x);
+    scanf("%lf\n", &arr[x]);
+  }
+
+  return arr;
+}
 int main(){
   node* head = create(-DBL_MAX, NULL);
-  head = append(head, 5);
-  printf("%f\n", head -> next -> value);
-  head = insertInAscendingOrder(head, 3);
-  printf("%f\n", head -> next -> value);
-  head = insertInAscendingOrder(head, 2);
-  printf("%f\n", head -> next -> value);
-  head = insertInAscendingOrder(head, 7);
-  printf("%f\n", head -> next -> value);
-  traverseList(head, print);
+  printf("Size?\n");
+  int size;
+  scanf("%d", &size);
+  printf("\n");
+  double* arr = initArray(size);
 }
