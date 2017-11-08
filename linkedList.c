@@ -90,15 +90,18 @@ void traverseList(node* head, void (*cb)(node* node)){
 }
 
 double* sortWithLL(double arr[], int size){
+  printf("Sorting...\n");
   double* returnedArray = malloc(sizeof(double)*size);
   node* head = create(-DBL_MAX, NULL);
   for(int x = 0; x<size; x++){
-    head = append(head, arr[x]);
+    head = insertInAscendingOrder(head, arr[x]);
   }
   node* cursor = head;
-  for(int y = 0; y<count(head); y++){
+  int counter = 0;
+  while(cursor -> next != NULL){
     cursor = cursor -> next;
-    returnedArray[y] = cursor -> value;
+    returnedArray[counter] = cursor -> value;
+    counter++;
   }
 
   return returnedArray;
@@ -107,16 +110,43 @@ double* initArray(int size){
   double* arr = malloc(sizeof(double)*size);
   for(int x = 0; x<size; x++){
     printf("arr[%d] = ", x);
-    scanf("%lf\n", &arr[x]);
+    scanf("%lf", &arr[x]);
   }
 
   return arr;
 }
+
+void printArray(double arr[], int size){
+    for(int x = 0; x<size; x++){
+        printf("arr[%d] is %f\n", x, arr[x]);
+    }
+}
+
+double* randomArray(int size){
+    double* arr = malloc(sizeof(double)*size);
+}
+
+node* freeLL(node* head){
+    int counter = count(head);
+    for(int x = counter-1; x>=0; x--){
+        free(getElementByIndex(head, x));
+    }
+    return head;
+}
+
+double* freeArray(double* arr){
+    free(arr);
+    return arr;
+}
 int main(){
   node* head = create(-DBL_MAX, NULL);
-  printf("Size?\n");
+  printf("Size? ");
   int size;
   scanf("%d", &size);
-  printf("\n");
   double* arr = initArray(size);
+  printArray(arr, size);
+  arr = sortWithLL(arr, size);
+  printArray(arr, size);
+  head = freeLL(head);
+  arr = free(arr);
 }

@@ -1,0 +1,6 @@
+*
+
+!.gitignore
+!bubbleSort.c
+!heapSort.c
+!linkedList.c
