@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <float.h>
 #include <time.h>
+#include <math.h>
 typedef struct node{
     struct node* previous;
     double value;
@@ -37,8 +38,8 @@ double* freeArray(double* arr){
     freeWrapper(arr);
     return arr;
 }
-void print(node* node){
-  printf("Value is %f\n", node -> value);
+void print(node* node, int counter){
+  printf("Element %d of the LL is %f\n",counter, node -> value);
 }
 node* create(double data, node* next, node* previous)
 {
@@ -53,6 +54,10 @@ node* create(double data, node* next, node* previous)
     new_node->previous = previous;
 
     return new_node;
+}
+
+node* createHead(){
+  return create(NAN, NULL, NULL);
 }
 
 node* prepend(node* head, double value){
@@ -112,14 +117,13 @@ node* insertInAscendingOrder(node* head, double value){
 
   return head;
 }
-void traverseList(node* head, void (*cb)(node* node)){
+void traverseList(node* head, void (*cb)(node* node, int counter)){
   node* cursor = head;
-  if(cursor -> next != NULL){
+  int counter = 0;
+  while(cursor != NULL){
+    cb(cursor, counter);
     cursor = cursor -> next;
-    while(cursor != NULL){
-      cb(cursor);
-      cursor = cursor -> next;
-    }
+    counter++;
   }
 }
 
@@ -188,24 +192,56 @@ node* removeNode(node* head, double value){
 
   while(cursor != NULL){
     if(cursor -> value == value){
-      cursor -> previous -> next = cursor -> next;
-      cursor -> next -> previous = cursor -> previous;
+      node* previous = cursor -> previous;
+      node* next = cursor -> next;
+      freeWrapper(cursor);
+      previous -> next = next;
+      if(next != NULL){
+        next -> previous = previous;
+      }
     }
     cursor = cursor -> next;
   }
   return head;
 }
+node* llFromArray(double arr[], int size){
+  node* head = create(arr[0], NULL, NULL);
+  for(int x = 1; x<size; x++){
+    head = append(head, arr[x]);
+  }
+
+  return head;
+}
+double* arrayFromLL(node* head){
+  int size = count(head);
+  node* cursor = head;
+  double* arr = (double*)(mallocWrapper(sizeof(double)*size));
+  int counter = 0;
+  if(cursor -> value == NAN && cursor -> next != NULL){
+    cursor = cursor -> next;
+  }
+  while(cursor != NULL){
+    arr[counter] = cursor -> value;
+    cursor = cursor -> next;
+    counter++;
+  }
+
+  return arr;
+}
 int main(){
   srand(time(NULL));
-  node* head = create(-DBL_MAX, NULL, NULL);
+  node* head = createHead();
   int size;
   printf("Size? ");
   scanf("%d", &size);
-  head = initLinkedList(head, size);
-  printf("Removing %f\n", getElementByIndex(head, 3) -> value);
-  head = removeNode(head, getElementByIndex(head, 3) -> value);
-
+  double* arr = initArray(size);
+  printArray(arr, size);
+  head = llFromArray(arr, size);
   traverseList(head, print);
+  double* arrCPY = arrayFromLL(head);
+  printArray(arrCPY, size);
+  freeWrapper(arr);
+  freeWrapper(arrCPY);
   freeLL(head);
   ensureMallocs();
 }
