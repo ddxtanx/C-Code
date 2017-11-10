@@ -1,18 +1,24 @@
 #include <stdio.h>
-#define null 0
+#include "memoryManage.c"
 typedef struct node{
-  int value;
+  double value;
   struct node* leftChild;
   struct node* rightChild;
 } node;
+node* create(double value, node* leftChild, node* rightChild){
+    node* node = (node*)mallocWrapper(sizeof(node));
+    if(node == NULL){
+        printf("ERROR\n");
+        return 0;
+    }
+
+    node -> value = value;
+    node -> leftChild = leftChild;
+    node -> rightChild = rightChild;
+
+    return node;
+}
+
 int main(int argv, char** argc){
-  struct node parent, child1, child2;
-  parent.value = 5;
-  child1.value = 1;
-  child1.children[0] = 0;
-  child2.value = 5;
-  child2.children[0] = 0;
-  parent.children[0] = &child1;
-  parent.children[1] = &child2;
 
 }

@@ -3,26 +3,13 @@
 #include <float.h>
 #include <time.h>
 #include <math.h>
+#include "memoryManage.c"
 typedef struct node{
     struct node* previous;
     double value;
     struct node* next;
 } node;
-int mallocs = 0;
 
-void* mallocWrapper(int size){
-  mallocs++;
-  return malloc(size);
-}
-
-void freeWrapper(void* malloced){
-  mallocs--;
-  free(malloced);
-}
-
-void ensureMallocs(){
-  printf("Amount of mallocs not freed - %d\n", mallocs);
-}
 
 node* freeLL(node* head){
     node* cursor = head;
@@ -128,7 +115,6 @@ void traverseList(node* head, void (*cb)(node* node, int counter)){
 }
 
 double* sortWithLL(double arr[], int size){
-  printf("Sorting...\n");
   double* returnedArray = mallocWrapper(sizeof(double)*size);
   node* head = create(-DBL_MAX, NULL, NULL);
   for(int x = 0; x<size; x++){
@@ -155,11 +141,24 @@ double* initArray(int size){
 }
 
 void printArray(double arr[], int size){
+    printf("[");
+    char comma;
     for(int x = 0; x<size; x++){
-        printf("arr[%d] is %f\n", x, arr[x]);
+        comma = (x!=size-1)?',':']';
+        printf("%f%c ", arr[x], comma);
     }
+    printf("\n");
 }
-
+void printLL(node* head){
+    node* cursor = head;
+    char* arrow;
+    while(cursor != NULL){
+        arrow = (cursor -> next != NULL)?"->":"";
+        printf("%f%s", cursor -> value, arrow);
+        cursor = cursor -> next;
+    }
+    printf("\n");
+}
 double* randomArray(int size){
   double* arr = mallocWrapper(sizeof(double)*size);
   for(int x = 0; x<size; x++){
@@ -230,18 +229,21 @@ double* arrayFromLL(node* head){
 }
 int main(){
   srand(time(NULL));
-  node* head = createHead();
+  node* head;
   int size;
   printf("Size? ");
   scanf("%d", &size);
   double* arr = initArray(size);
   printArray(arr, size);
   head = llFromArray(arr, size);
-  traverseList(head, print);
+  printLL(head);
   double* arrCPY = arrayFromLL(head);
+  double* arrSorted = sortWithLL(arrCPY, size);
   printArray(arrCPY, size);
+  printArray(arrSorted, size);
   freeWrapper(arr);
   freeWrapper(arrCPY);
+  freeWrapper(arrSorted);
   freeLL(head);
   ensureMallocs();
 }
