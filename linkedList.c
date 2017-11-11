@@ -2,8 +2,9 @@
 #include <float.h>
 #include <time.h>
 #include <math.h>
-#include "memoryManage.c"
-#include "arrayFuncs.c"
+#include <stdlib.h>
+#include "memoryManage.h"
+#include "arrayFuncs.h"
 typedef struct llNode{
     struct llNode* previous;
     double value;

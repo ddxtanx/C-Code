@@ -1,10 +1,11 @@
 *
 
 !.gitignore
-!bubbleSort.c
-!heapSort.c
-!linkedList.c
-!binaryTree.c
-!memoryManage.c
-!dectobinary.c
-!arrayFuncs.c
+!bubbleSort.*
+!heapSort.*
+!linkedList.*
+!binaryTree.*
+!memoryManage.*
+!dectobinary.*
+!arrayFuncs.*
+!Makefile

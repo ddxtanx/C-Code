@@ -1,6 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "dectobinary.h"
+#ifndef mallocs
+#include "memoryManage.h"
+#endif
+
 int powDetermine(unsigned long long decimal){
   unsigned long long powof2 = 2;
     unsigned long long exponent = 1;
@@ -16,7 +21,7 @@ void bitrepre(unsigned long long decimal, char bitrep[], int exponent){
     //printf("Decimal is %llu\n", decimal);
     //initilizing the bits
     bitrep[exponent-1]='\0';
-    bitrep[exponent]='\0';
+    //bitrep[exponent]='\0';
     //printf("Pow is %llu, exp is %llu, len is at %lu\n", powof2, exponent, strlen(bitrep));
     unsigned long long keeper=2;
     char dig;
@@ -37,6 +42,5 @@ char* decToBinary(unsigned long long decimal){
   int exponent = powDetermine(decimal);
   char* bitRep = (char*)mallocWrapper(sizeof(char)*exponent);
   bitrepre(decimal, bitRep, exponent);
-
   return bitRep;
 }

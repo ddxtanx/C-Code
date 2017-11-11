@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <math.h>
-#include "memoryManage.c"
-#include "arrayFuncs.c"
-#include "dectobinary.c"
+#include <stdlib.h>
+#include <time.h>
+#include "memoryManage.h"
+#include "arrayFuncs.h"
+#include "dectobinary.h"
 int globalLayer = 0;
 typedef struct binaryTreeNode{
     double value;
@@ -107,6 +109,7 @@ void traverseBinaryTree(binaryTreeHead* head, void cb(binaryTreeNode* node, int 
     cb(cursor, layers, counter-1);
     counter++;
   }
+  freeWrapper(binaryRep);
 }
 void printBinaryTree(binaryTreeNode* node, int layer, int counter){
   printf("%f, ", node -> value);

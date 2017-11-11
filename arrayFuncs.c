@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include "arrayFuncs.h"
+#include "memoryManage.h"
 double* initArray(int size){
   double* arr = mallocWrapper(sizeof(double)*size);
   for(int x = 0; x<size; x++){

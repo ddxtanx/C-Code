@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "memoryManage.c"
+#include "memoryManage.h"
 typedef struct heapNode{
   double value;
   struct heapNode* leftChild;
