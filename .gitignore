@@ -2,7 +2,7 @@
 
 !.gitignore
 !bubbleSort.*
-!heapSort.*
+!heap.*
 !linkedList.*
 !binaryTree.*
 !memoryManage.*
