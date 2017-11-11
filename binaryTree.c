@@ -130,9 +130,9 @@ void freeBinaryTree(binaryTreeHead* head){
 }
 int main(){
   srand(time(NULL));
-  binaryTreeHead* head = createBinaryTreeHead(100);
+  binaryTreeHead* head = createBinaryTreeHead(50);
   int size = 14;
-  double* randArray = randomArray(size);
+  double* randArray = randomArray(size, head -> head -> value);
   head = appendToBinaryTreeFromArray(head, randArray, size);
   traverseBinaryTree(head, printBinaryTree);
   printf("%f\n", head -> head -> left -> value);
