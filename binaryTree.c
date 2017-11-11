@@ -3,11 +3,13 @@
 #include "memoryManage.c"
 #include "arrayFuncs.c"
 #include "dectobinary.c"
+int globalLayer = 0;
 typedef struct binaryTreeNode{
     double value;
     struct binaryTreeNode* left;
     struct binaryTreeNode* right;
 } binaryTreeNode;
+binaryTreeNode** nodeArray;
 typedef struct binaryTreeHead{
     binaryTreeNode* head;
     int children;
@@ -75,20 +77,21 @@ binaryTreeHead* appendToBinaryTreeFromArray(binaryTreeHead* head, double value[]
   return head;
 }
 
-void printBinaryTree(binaryTreeHead* head){
+void traverseBinaryTree(binaryTreeHead* head, void cb(binaryTreeNode* node, int layer, int counter)){
+  globalLayer = 0;
+  if(nodeArray != NULL){
+    freeWrapper(nodeArray);
+  }
   binaryTreeNode* headNode = head -> head;
   int children = head -> children;
-
-  printf("%f\n", headNode -> value);
+  nodeArray = (binaryTreeNode**)(malloc(sizeof(binaryTreeNode)*children));
 
   binaryTreeNode* cursor = headNode;
   long long unsigned counter = 2;
   int layers = floor(log2(counter));
   char* binaryRep = decToBinary(counter);
-  while(counter < children){
-    if(floor(log2(counter)) > layers){
-      printf("\n");//Denotes new layer of binary tree
-    }
+  cb(headNode, layers, 0);
+  while(counter <= children){
     freeWrapper(binaryRep);
     binaryRep = decToBinary(counter);
     layers = floor(log2(counter));
@@ -101,16 +104,37 @@ void printBinaryTree(binaryTreeHead* head){
         cursor = cursor -> right;
       }
     }
-    printf("%f,", cursor -> value);
+    cb(cursor, layers, counter-1);
     counter++;
+  }
+}
+void printBinaryTree(binaryTreeNode* node, int layer, int counter){
+  printf("%f, ", node -> value);
+  if(layer>globalLayer || layer == 0){
+    printf("\n");
+  }
+  globalLayer = layer;
+}
+
+void arrayOfBinaryTreeNodes(binaryTreeNode* node, int layer, int counter){
+  nodeArray[counter] = node;
+}
+
+void freeBinaryTree(binaryTreeHead* head){
+  for(int x = 0; x<head -> children; x++){
+    freeWrapper(nodeArray[x]);
   }
 }
 int main(){
   srand(time(NULL));
-  binaryTreeHead* head = createBinaryTreeHead(rand()%60);
+  binaryTreeHead* head = createBinaryTreeHead(100);
   int size = 14;
   double* randArray = randomArray(size);
   head = appendToBinaryTreeFromArray(head, randArray, size);
-  printBinaryTree(head);
+  traverseBinaryTree(head, printBinaryTree);
   printf("%f\n", head -> head -> left -> value);
+  freeBinaryTree(head);
+  freeWrapper(randArray);
+  freeWrapper(head);
+  ensureMallocs();
 }
