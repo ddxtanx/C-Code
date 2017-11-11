@@ -23,11 +23,27 @@ void printArray(double arr[], int size){
     printf("\n");
 }
 
-double* randomArray(int size){
+double* randomArray(int size, int maxNum){
   double* arr = mallocWrapper(sizeof(double)*size);
   for(int x = 0; x<size; x++){
-    arr[x] = rand() % 500;
+    arr[x] = rand() % maxNum;
   }
 
   return arr;
+}
+
+double* reverseArray(double arr[], int size){
+  double* reversedArr = (double*)mallocWrapper(sizeof(double)*size);
+
+  if(reversedArr == NULL){
+    printf("Error\n");
+    exit(0);
+  }
+  int y = 0;
+  for(int x = size - 1; x>=0; x--){
+    reversedArr[y] = arr[x];
+    y++;
+  }
+
+  return reversedArr;
 }
