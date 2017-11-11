@@ -2,9 +2,9 @@
 #include <math.h>
 #include <stdlib.h>
 #include <time.h>
-#include "memoryManage.h"
-#include "arrayFuncs.h"
-#include "dectobinary.h"
+#include "../helperLibs/memoryManage.h"
+#include "../helperLibs/arrayFuncs.h"
+#include "../helperLibs/dectobinary.h"
 int globalLayer = 0;
 typedef struct binaryTreeNode{
     double value;

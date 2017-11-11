@@ -3,8 +3,8 @@
 #include <time.h>
 #include <math.h>
 #include <stdlib.h>
-#include "memoryManage.h"
-#include "arrayFuncs.h"
+#include "../helperLibs/memoryManage.h"
+#include "../helperLibs/arrayFuncs.h"
 typedef struct llNode{
     struct llNode* previous;
     double value;

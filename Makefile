@@ -1,8 +1,8 @@
-linkedList: arrayFuncs.c memoryManage.c
-	gcc -g linkedList.c arrayFuncs.c memoryManage.c -o linkedList
-binaryTree: memoryManage.c arrayFuncs.c dectobinary.c
-	gcc -g binaryTree.c dectobinary.c memoryManage.c arrayFuncs.c -o binaryTree
-heapSort: memoryManage.c
-	gcc -g heapSort.c memoryManage.c -o heapSort
+linkedList: ./helperLibs/arrayFuncs.c ./helperLibs/memoryManage.c
+	gcc -g ./dataStructures/linkedList.c ./helperLibs/arrayFuncs.c ./helperLibs/memoryManage.c -o ./dataStructures/linkedList
+binaryTree: ./helperLibs/memoryManage.c ./helperLibs/arrayFuncs.c ./helperLibs/dectobinary.c
+	gcc -g ./dataStructures/binaryTree.c ./helperLibs/dectobinary.c ./helperLibs/memoryManage.c ./helperLibs/arrayFuncs.c -o ./dataStructures/binaryTree
+heap: ./helperLibs/memoryManage.c
+	gcc -g ./dataStructures/heap.c ./helperLibs/memoryManage.c -o ./dataStructures/heap
 all:
-	make linkedList binaryTree heapSort
+	make linkedList binaryTree heap
