@@ -49,28 +49,22 @@ binaryTreeHead* appendToBinaryTree(binaryTreeHead* head, double value){
   int layers = floor(log2(count+1));
   while(cursor -> left != NULL && cursor -> right != NULL){
     int powerAverage = (pow(2, layers-1) + pow(2, layers)); //simplified down from (pow(2, layers) - pow(2, layers+1))/2
-    printf("count is %d, layers is %d, powerAverage is %d\n", count, layers, powerAverage);
     if(count < powerAverage-1){ //If empty space is on left side of tree
-      printf("traversing to left\n");
       cursor = cursor -> left;
       count -= (int)pow(2, layers-1);
     } else{ // If empty space is on right side of tree
-      printf("traversing to right\n");
       cursor = cursor -> right;
       count -= (int)pow(2, layers);
     }
     layers--;
   }
   if(cursor -> left == NULL){
-    printf("Appending to left\n");
     cursor -> left = appended;
   } else{
-    printf("Appending to right\n");
     cursor -> right = appended;
   }
   head -> head = headNode;
   head -> children = head -> children + 1;
-  printf("done\n");
   return head;
 }
 binaryTreeHead* appendToBinaryTreeFromArray(binaryTreeHead* head, double value[], int size){
@@ -81,10 +75,42 @@ binaryTreeHead* appendToBinaryTreeFromArray(binaryTreeHead* head, double value[]
   return head;
 }
 
+void printBinaryTree(binaryTreeHead* head){
+  binaryTreeNode* headNode = head -> head;
+  int children = head -> children;
+
+  printf("%f\n", headNode -> value);
+
+  binaryTreeNode* cursor = headNode;
+  long long unsigned counter = 2;
+  int layers = floor(log2(counter));
+  char* binaryRep = decToBinary(counter);
+  while(counter < children){
+    if(floor(log2(counter)) > layers){
+      printf("\n");//Denotes new layer of binary tree
+    }
+    freeWrapper(binaryRep);
+    binaryRep = decToBinary(counter);
+    layers = floor(log2(counter));
+    cursor = headNode;
+    int size = powDetermine(counter);
+    for(int x = 1; x<size; x++){
+      if(binaryRep[x]=='0'){
+        cursor = cursor -> left;
+      } else{
+        cursor = cursor -> right;
+      }
+    }
+    printf("%f,", cursor -> value);
+    counter++;
+  }
+}
 int main(){
-  binaryTreeHead* head = createBinaryTreeHead(0);
-  int size = 10;
+  srand(time(NULL));
+  binaryTreeHead* head = createBinaryTreeHead(rand()%60);
+  int size = 14;
   double* randArray = randomArray(size);
   head = appendToBinaryTreeFromArray(head, randArray, size);
+  printBinaryTree(head);
   printf("%f\n", head -> head -> left -> value);
 }

@@ -35,7 +35,7 @@ void bitrepre(unsigned long long decimal, char bitrep[], int exponent){
 }
 char* decToBinary(unsigned long long decimal){
   int exponent = powDetermine(decimal);
-  char* bitRep = (char*)malloc(sizeof(char)*exponent);
+  char* bitRep = (char*)mallocWrapper(sizeof(char)*exponent);
   bitrepre(decimal, bitRep, exponent);
 
   return bitRep;

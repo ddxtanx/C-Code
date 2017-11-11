@@ -22,10 +22,8 @@ void printArray(double arr[], int size){
 }
 
 double* randomArray(int size){
-  srand(time(NULL));
   double* arr = mallocWrapper(sizeof(double)*size);
   for(int x = 0; x<size; x++){
-    srand(time(NULL));
     arr[x] = rand() % 500;
   }
 
