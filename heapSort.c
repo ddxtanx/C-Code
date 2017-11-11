@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include "memoryManage.c"
-typedef struct node{
+typedef struct heapNode{
   double value;
-  struct node* leftChild;
-  struct node* rightChild;
-} node;
-node* create(double value, node* leftChild, node* rightChild){
-    node* node = (node*)mallocWrapper(sizeof(node));
+  struct heapNode* leftChild;
+  struct heapNode* rightChild;
+} heapNode;
+heapNode* create(double value, heapNode* leftChild, heapNode* rightChild){
+    heapNode* node = (heapNode*)mallocWrapper(sizeof(heapNode));
     if(node == NULL){
         printf("ERROR\n");
         return 0;

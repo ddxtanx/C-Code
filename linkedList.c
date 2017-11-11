@@ -1,20 +1,20 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <float.h>
 #include <time.h>
 #include <math.h>
 #include "memoryManage.c"
-typedef struct node{
-    struct node* previous;
+#include "arrayFuncs.c"
+typedef struct llNode{
+    struct llNode* previous;
     double value;
-    struct node* next;
-} node;
+    struct llNode* next;
+} llNode;
 
 
-node* freeLL(node* head){
-    node* cursor = head;
+llNode* freeLL(llNode* head){
+    llNode* cursor = head;
     while(cursor != NULL){
-      node* cpy = cursor -> next;
+      llNode* cpy = cursor -> next;
       freeWrapper(cursor);
       cursor = cpy;
     }
@@ -25,50 +25,48 @@ double* freeArray(double* arr){
     freeWrapper(arr);
     return arr;
 }
-void print(node* node, int counter){
-  printf("Element %d of the LL is %f\n",counter, node -> value);
-}
-node* create(double data, node* next, node* previous)
+
+llNode* createLLNode(double data, llNode* next, llNode* previous)
 {
-    node* new_node = (node*)mallocWrapper(sizeof(node));
-    if(new_node == NULL)
+    llNode* new_llNode = (llNode*)mallocWrapper(sizeof(llNode));
+    if(new_llNode == NULL)
     {
-        printf("Error creating a new node.\n");
+        printf("Error creating a new llNode.\n");
         exit(0);
     }
-    new_node->value = data;
-    new_node->next = next;
-    new_node->previous = previous;
+    new_llNode->value = data;
+    new_llNode->next = next;
+    new_llNode->previous = previous;
 
-    return new_node;
+    return new_llNode;
 }
 
-node* createHead(){
-  return create(NAN, NULL, NULL);
+llNode* createLLHead(){
+  return createLLNode(NAN, NULL, NULL);
 }
 
-node* prepend(node* head, double value){
-  node* newNode = create(value, head, NULL);
+llNode* prepend(llNode* head, double value){
+  llNode* newNode = createLLNode(value, head, NULL);
   head = newNode;
   return head;
 }
 
-node* append(node* head, double data)
+llNode* appendToLL(llNode* head, double data)
 {
-    /* go to the last node */
-    node *cursor = head;
+    /* go to the last llNode */
+    llNode *cursor = head;
     while(cursor->next != NULL)
         cursor = cursor->next;
 
-    /* create a new node */
-    node* new_node =  create(data,NULL, cursor);
-    cursor->next = new_node;
+    /* create a new llNode */
+    llNode* new_llNode =  createLLNode(data,NULL, cursor);
+    cursor->next = new_llNode;
 
     return head;
 }
-int count(node *head)
+int countLL(llNode *head)
 {
-    node *cursor = head;
+    llNode *cursor = head;
     int c = 0;
     while(cursor != NULL)
     {
@@ -77,14 +75,14 @@ int count(node *head)
     }
     return c;
 }
-node* getElementByIndex(node* head, int index){
-  int length = count(head);
+llNode* getLLElementByIndex(llNode* head, int index){
+  int length = countLL(head);
   if(index<0 || index>=length){
     printf("Index must fall in linked list.\n");
     printf("\t You asked for element %d when there are only %d elements in the list.\n", index+1, length);
     return 0;
   }
-  node* cursor = head;
+  llNode* cursor = head;
   int counter = 0;
   while(counter != index){
     cursor = cursor -> next;
@@ -93,9 +91,9 @@ node* getElementByIndex(node* head, int index){
   return cursor;
 }
 
-node* insertInAscendingOrder(node* head, double value){
-  node* insertedNode = create(value, NULL, NULL);
-  node* cursor = head;
+llNode* llInsertInAscendingOrder(llNode* head, double value){
+  llNode* insertedNode = createLLNode(value, NULL, NULL);
+  llNode* cursor = head;
   while((cursor -> next != NULL) && (cursor -> next -> value < value)){
     cursor = cursor -> next;
   }
@@ -104,8 +102,8 @@ node* insertInAscendingOrder(node* head, double value){
 
   return head;
 }
-void traverseList(node* head, void (*cb)(node* node, int counter)){
-  node* cursor = head;
+void traverseLL(llNode* head, void (*cb)(llNode* llNode, int counter)){
+  llNode* cursor = head;
   int counter = 0;
   while(cursor != NULL){
     cb(cursor, counter);
@@ -116,11 +114,11 @@ void traverseList(node* head, void (*cb)(node* node, int counter)){
 
 double* sortWithLL(double arr[], int size){
   double* returnedArray = mallocWrapper(sizeof(double)*size);
-  node* head = create(-DBL_MAX, NULL, NULL);
+  llNode* head = createLLNode(-DBL_MAX, NULL, NULL);
   for(int x = 0; x<size; x++){
-    head = insertInAscendingOrder(head, arr[x]);
+    head = llInsertInAscendingOrder(head, arr[x]);
   }
-  node* cursor = head;
+  llNode* cursor = head;
   int counter = 0;
   while(cursor -> next != NULL){
     cursor = cursor -> next;
@@ -130,27 +128,9 @@ double* sortWithLL(double arr[], int size){
   head = freeLL(head);
   return returnedArray;
 }
-double* initArray(int size){
-  double* arr = mallocWrapper(sizeof(double)*size);
-  for(int x = 0; x<size; x++){
-    printf("arr[%d] = ", x);
-    scanf("%lf", &arr[x]);
-  }
 
-  return arr;
-}
-
-void printArray(double arr[], int size){
-    printf("[");
-    char comma;
-    for(int x = 0; x<size; x++){
-        comma = (x!=size-1)?',':']';
-        printf("%f%c ", arr[x], comma);
-    }
-    printf("\n");
-}
-void printLL(node* head){
-    node* cursor = head;
+void printLL(llNode* head){
+    llNode* cursor = head;
     char* arrow;
     while(cursor != NULL){
         arrow = (cursor -> next != NULL)?"->":"";
@@ -159,40 +139,33 @@ void printLL(node* head){
     }
     printf("\n");
 }
-double* randomArray(int size){
-  double* arr = mallocWrapper(sizeof(double)*size);
-  for(int x = 0; x<size; x++){
-    arr[x] = rand() % 500;
-  }
 
-  return arr;
-}
 
-node* randomLinkedList(node* head, int size){
-  node* cursor = head;
+llNode* randomLinkedList(llNode* head, int size){
+  llNode* cursor = head;
   for(int x = 0; x<size; x++){
-    append(cursor, rand()%100);
+    appendToLL(cursor, rand()%100);
   }
   return cursor;
 }
-node* initLinkedList(node* head, int size){
-  node* cursor = head;
+llNode* initLinkedList(llNode* head, int size){
+  llNode* cursor = head;
   for(int x = 0; x<size; x++){
     printf("Element %d = ", x);
     double val;
     scanf("%lf", &val);
-    cursor = append(cursor, val);
+    cursor = appendToLL(cursor, val);
   }
 
   return cursor;
 }
-node* removeNode(node* head, double value){
-  node* cursor = head;
+llNode* removeLLNode(llNode* head, double value){
+  llNode* cursor = head;
 
   while(cursor != NULL){
     if(cursor -> value == value){
-      node* previous = cursor -> previous;
-      node* next = cursor -> next;
+      llNode* previous = cursor -> previous;
+      llNode* next = cursor -> next;
       freeWrapper(cursor);
       previous -> next = next;
       if(next != NULL){
@@ -203,17 +176,17 @@ node* removeNode(node* head, double value){
   }
   return head;
 }
-node* llFromArray(double arr[], int size){
-  node* head = create(arr[0], NULL, NULL);
+llNode* llFromArray(double arr[], int size){
+  llNode* head = createLLNode(arr[0], NULL, NULL);
   for(int x = 1; x<size; x++){
-    head = append(head, arr[x]);
+    head = appendToLL(head, arr[x]);
   }
 
   return head;
 }
-double* arrayFromLL(node* head){
-  int size = count(head);
-  node* cursor = head;
+double* arrayFromLL(llNode* head){
+  int size = countLL(head);
+  llNode* cursor = head;
   double* arr = (double*)(mallocWrapper(sizeof(double)*size));
   int counter = 0;
   if(cursor -> value == NAN && cursor -> next != NULL){
@@ -229,7 +202,7 @@ double* arrayFromLL(node* head){
 }
 int main(){
   srand(time(NULL));
-  node* head;
+  llNode* head;
   int size;
   printf("Size? ");
   scanf("%d", &size);
