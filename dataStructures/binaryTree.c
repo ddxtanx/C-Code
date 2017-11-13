@@ -2,20 +2,14 @@
 #include <math.h>
 #include <stdlib.h>
 #include <time.h>
+#include "binaryTree.h"
 #include "../helperLibs/memoryManage.h"
 #include "../helperLibs/arrayFuncs.h"
 #include "../helperLibs/dectobinary.h"
 int globalLayer = 0;
-typedef struct binaryTreeNode{
-    double value;
-    struct binaryTreeNode* left;
-    struct binaryTreeNode* right;
-} binaryTreeNode;
+
 binaryTreeNode** nodeArray;
-typedef struct binaryTreeHead{
-    binaryTreeNode* head;
-    int children;
-} binaryTreeHead;
+
 
 binaryTreeNode* createBinaryTreeNode(double value, binaryTreeNode* left, binaryTreeNode* right){
     binaryTreeNode* node = (binaryTreeNode*)mallocWrapper(sizeof(binaryTreeNode));
@@ -128,16 +122,4 @@ void freeBinaryTree(binaryTreeHead* head){
     freeWrapper(nodeArray[x]);
   }
 }
-int main(){
-  srand(time(NULL));
-  binaryTreeHead* head = createBinaryTreeHead(50);
-  int size = 14;
-  double* randArray = randomArray(size, head -> head -> value);
-  head = appendToBinaryTreeFromArray(head, randArray, size);
-  traverseBinaryTree(head, printBinaryTree);
-  printf("%f\n", head -> head -> left -> value);
-  freeBinaryTree(head);
-  freeWrapper(randArray);
-  freeWrapper(head);
-  ensureMallocs();
-}
+

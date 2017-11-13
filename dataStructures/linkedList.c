@@ -3,13 +3,9 @@
 #include <time.h>
 #include <math.h>
 #include <stdlib.h>
+#include "linkedList.h"
 #include "../helperLibs/memoryManage.h"
 #include "../helperLibs/arrayFuncs.h"
-typedef struct llNode{
-    struct llNode* previous;
-    double value;
-    struct llNode* next;
-} llNode;
 
 
 llNode* freeLL(llNode* head){
@@ -20,11 +16,6 @@ llNode* freeLL(llNode* head){
       cursor = cpy;
     }
     return head;
-}
-
-double* freeArray(double* arr){
-    freeWrapper(arr);
-    return arr;
 }
 
 llNode* createLLNode(double data, llNode* next, llNode* previous)
@@ -46,7 +37,7 @@ llNode* createLLHead(){
   return createLLNode(NAN, NULL, NULL);
 }
 
-llNode* prepend(llNode* head, double value){
+llNode* prependToLL(llNode* head, double value){
   llNode* newNode = createLLNode(value, head, NULL);
   head = newNode;
   return head;
@@ -201,29 +192,4 @@ double* arrayFromLL(llNode* head){
 
   return arr;
 }
-int main(){
-  srand(time(NULL));
-  llNode* head;
-  int size;
-  printf("Size? ");
-  scanf("%d", &size);
-  int maxNum;
-  printf("Max Number? ");
-  scanf("%d", &maxNum);
-  double* arr = randomArray(size, maxNum);
-  printArray(arr, size);
-  head = llFromArray(arr, size);
-  printLL(head);
-  double* arrCPY = arrayFromLL(head);
-  double* arrSorted = sortWithLL(arrCPY, size);
-  double* decendingSort = reverseArray(arrSorted, size);
-  printArray(arrCPY, size);
-  printArray(arrSorted, size);
-  printArray(decendingSort, size);
-  freeWrapper(arr);
-  freeWrapper(arrCPY);
-  freeWrapper(arrSorted);
-  freeWrapper(decendingSort);
-  freeLL(head);
-  ensureMallocs();
-}
+
