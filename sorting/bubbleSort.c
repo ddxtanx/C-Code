@@ -1,18 +1,21 @@
 #include <stdio.h>
+#include "../helperLibs/arrayFuncs.h"
 #include "bubbleSort.h"
-void bubbleSort(int array[], int arrayLen){
+double* bubbleSort(double array[], int arrayLen){
 	int swaps = 1;
+	double* arr = copyArray(array, arrayLen);
 	while(swaps != 0){
 		swaps = 0;
 		for(int x = 0; x<arrayLen-1; x++){
-			int first = array[x];
-			int second = array[x+1];
+			double first = arr[x];
+			double second = arr[x+1];
 			if(first>second){
-				array[x] = second;
-				array[x+1] = first;
+				arr[x] = second;
+				arr[x+1] = first;
 				swaps++;
 			}
 		}
 	}
+	return arr;
 }
 

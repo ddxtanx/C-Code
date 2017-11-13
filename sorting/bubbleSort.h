@@ -1,1 +1,1 @@
-void bubbleSort(int array[], int arrayLen);
+double* bubbleSort(double array[], int arrayLen);

@@ -47,3 +47,18 @@ double* reverseArray(double arr[], int size){
 
   return reversedArr;
 }
+
+double* copyArray(double arr[], int size){
+  double* copiedArray = (double*)mallocWrapper(sizeof(double)*size);
+
+  if(copiedArray == NULL){
+    printf("Error\n");
+    exit(0);
+  }
+
+  for(int x = 0; x<size; x++){
+    copiedArray[x] = arr[x];
+  }
+
+  return copiedArray;
+}
