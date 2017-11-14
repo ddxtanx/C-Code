@@ -3,6 +3,7 @@
 #include <time.h>
 #include "arrayFuncs.h"
 #include "memoryManage.h"
+#include "../dataStructures/linkedList.h"
 double* initArray(int size){
   double* arr = mallocWrapper(sizeof(double)*size);
   for(int x = 0; x<size; x++){
@@ -61,4 +62,40 @@ double* copyArray(double arr[], int size){
   }
 
   return copiedArray;
+}
+
+double* partitionInOrder(double arr[], int size, int* pvt){
+    int indexOfPivot = *pvt;
+    llNode* head = createLLNode(arr[indexOfPivot], NULL, NULL);
+    int pivot = arr[indexOfPivot];
+    for(int x = 0; x<size; x++){
+        if(x != indexOfPivot){
+            if(arr[x]<=pivot){
+                head = prependToLL(head, arr[x]);
+            } else{
+                head = appendToLL(head, arr[x]);
+            }
+        }
+    }
+    printLL(head);
+    double* returnedArray = arrayFromLL(head);
+    int newIndexOfPivot = 0;
+    while(newIndexOfPivot<size){
+      if(returnedArray[newIndexOfPivot] == pivot){
+        break;
+      }
+      newIndexOfPivot++;
+    }
+    pvt = &newIndexOfPivot;
+    freeLL(head);
+    return returnedArray;
+}
+
+double* merge2Arrays(double arr1[], int size1, double arr2[], int size2){
+    double* returnedArray = (double*)mallocWrapper(sizeof(double)*(size1+size2));
+    for(int x = 0; x<size1+size2; x++){
+        returnedArray[x] = (x<size1)?arr1[x]:arr2[x-size1];
+    }
+
+    return returnedArray;
 }
