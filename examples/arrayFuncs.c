@@ -13,21 +13,29 @@ int main(){
     int maxNum;
     printf("Max num? ");
     scanf("%d", &maxNum);
-
-    double* arr =randomArray(size, maxNum);
+    printf("Random Array1: \n");
+    double* arr = randomArray(size, maxNum);
     printArray(arr, size);
 
+    printf("Reversed Array: \n");
     double* reversedArray = reverseArray(arr, size);
     printArray(reversedArray, size);
 
+    printf("Copied Array: \n");
     double* copiedArray = copyArray(arr, size);
     printArray(copiedArray, size);
 
     int index = 4;
+    printf("Partitioned Array at %f: \n", arr[index]);
     double* partitionedArray = partitionInOrder(arr, size, &index);
     printArray(partitionedArray, size);
 
-    double* mergedArrays = merge2Arrays(arr, size, arr, size);
+    printf("Random Array2: \n");
+    double* secondRandomArray = randomArray(size, maxNum);
+    printArray(secondRandomArray, size);
+
+    printf("Random1 and Random2 merged: \n");
+    double* mergedArrays = merge2Arrays(arr, size, secondRandomArray, size);
     printArray(mergedArrays, 2*size);
 
     freeWrapper(arr);
@@ -35,6 +43,7 @@ int main(){
     freeWrapper(copiedArray);
     freeWrapper(partitionedArray);
     freeWrapper(mergedArrays);
+    freeWrapper(secondRandomArray);
     ensureMallocs();
     return 0;
 }

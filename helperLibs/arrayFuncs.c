@@ -64,29 +64,19 @@ double* copyArray(double arr[], int size){
   return copiedArray;
 }
 
-double* partitionInOrder(double arr[], int size, int* pvt){
-    int indexOfPivot = *pvt;
+double* partitionInOrder(double arr[], int size, int indexOfPivot){
     llNode* head = createLLNode(arr[indexOfPivot], NULL, NULL);
     int pivot = arr[indexOfPivot];
     for(int x = 0; x<size; x++){
         if(x != indexOfPivot){
-            if(arr[x]<=pivot){
+            if(arr[x]<pivot){
                 head = prependToLL(head, arr[x]);
             } else{
                 head = appendToLL(head, arr[x]);
             }
         }
     }
-    printLL(head);
     double* returnedArray = arrayFromLL(head);
-    int newIndexOfPivot = 0;
-    while(newIndexOfPivot<size){
-      if(returnedArray[newIndexOfPivot] == pivot){
-        break;
-      }
-      newIndexOfPivot++;
-    }
-    pvt = &newIndexOfPivot;
     freeLL(head);
     return returnedArray;
 }
