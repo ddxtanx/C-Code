@@ -72,7 +72,7 @@ double* partitionInOrder(double arr[], int size, int indexOfPivot){
             if(arr[x]<pivot){
                 head = prependToLL(head, arr[x]);
             } else{
-                head = appendToLL(head, arr[x]);
+                head = llInsertInAscendingOrder(head, arr[x]);
             }
         }
     }
@@ -88,4 +88,8 @@ double* merge2Arrays(double arr1[], int size1, double arr2[], int size2){
     }
 
     return returnedArray;
+}
+
+int sizeOfArray(double arr[]){
+    return sizeof(arr)/sizeof(double);
 }

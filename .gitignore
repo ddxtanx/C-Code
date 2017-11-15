@@ -1,20 +1,13 @@
 *
 
 !.gitignore
-!bubbleSort.*
-!heap.*
-!linkedList.*
-!binaryTree.*
-!memoryManage.*
-!dectobinary.*
-!arrayFuncs.*
+!*.c
+!*.h
 !Makefile
-!README.md
 !dataStructures
+!examples
 !helperLibs
 !sorting
-!insertionSort.*
-!examples
-!quickSort.*
-
 *.exe*
+!README.md
+*.o

@@ -13,12 +13,20 @@ double* quickSort(double arr[], int size){
     int pivotIndex = (rand() % (size-1))+1; //Ensure that pivotIndex is never 0
     double pivotValue = arr[pivotIndex];
     double* partitioned = partitionInOrder(arr, size, pivotIndex);
+    int foundX = 0; //Going to represent a boolean in the next loop
+    int leftPivotIndex;
+    int rightPivotIndex;
     for(int x = 0; x<size; x++){
-        if(partitioned[x]==pivotValue){
-            pivotIndex = x;
+        if(partitioned[x]==pivotValue && foundX == 0){
+            foundX = 1;
+            leftPivotIndex = x;
+        }
+        if(foundX == 1 && partitioned[x]!=pivotValue){
+            rightPivotIndex = x-1;
+            break;
         }
     }
-    int leftSize = pivotIndex-1;
+    int leftSize = leftPivotIndex;
     double leftSubArray[leftSize];
     for(int x = 0; x<leftSize; x++){
         leftSubArray[x] = partitioned[x];
@@ -27,7 +35,7 @@ double* quickSort(double arr[], int size){
     int rightSize = size-leftSize;
     double rightSubArray[rightSize];
     for(int x = 0; x<rightSize; x++){
-        rightSubArray[x] = partitioned[x+pivotIndex];
+        rightSubArray[x] = partitioned[x+(rightPivotIndex-1)];
     }
     printf("Whole array partitioned at %f: \n", pivotValue);
     printArray(partitioned, size);

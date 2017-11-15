@@ -27,7 +27,7 @@ int main(){
 
     int index = 4;
     printf("Partitioned Array at %f: \n", arr[index]);
-    double* partitionedArray = partitionInOrder(arr, size, &index);
+    double* partitionedArray = partitionInOrder(arr, size, index);
     printArray(partitionedArray, size);
 
     printf("Random Array2: \n");
