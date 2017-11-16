@@ -16,4 +16,6 @@ int main(){
 
     freeWrapper(arr);
     freeWrapper(sorted);
+
+    ensureMallocs();
 }

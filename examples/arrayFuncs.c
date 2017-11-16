@@ -25,11 +25,6 @@ int main(){
     double* copiedArray = copyArray(arr, size);
     printArray(copiedArray, size);
 
-    int index = 4;
-    printf("Partitioned Array at %f: \n", arr[index]);
-    double* partitionedArray = partitionInOrder(arr, size, index);
-    printArray(partitionedArray, size);
-
     printf("Random Array2: \n");
     double* secondRandomArray = randomArray(size, maxNum);
     printArray(secondRandomArray, size);
@@ -41,7 +36,6 @@ int main(){
     freeWrapper(arr);
     freeWrapper(reversedArray);
     freeWrapper(copiedArray);
-    freeWrapper(partitionedArray);
     freeWrapper(mergedArrays);
     freeWrapper(secondRandomArray);
     ensureMallocs();

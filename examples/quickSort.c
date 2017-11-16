@@ -17,11 +17,13 @@ int main(){
     double* arr = randomArray(size, maxNum);
     printArray(arr, size);
 
+    printf("Sorting...\n");
     double* sortedArr = quickSort(arr, size);
     printArray(sortedArr, size);
 
     freeWrapper(arr);
     freeWrapper(sortedArr);
 
+    ensureMallocs();
     return 0;
 }
