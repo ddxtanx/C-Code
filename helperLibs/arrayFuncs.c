@@ -64,23 +64,6 @@ double* copyArray(double arr[], int size){
   return copiedArray;
 }
 
-double* partitionInOrder(double arr[], int size, int indexOfPivot){
-    llNode* head = createLLNode(arr[indexOfPivot], NULL, NULL);
-    int pivot = arr[indexOfPivot];
-    for(int x = 0; x<size; x++){
-        if(x != indexOfPivot){
-            if(arr[x]<pivot){
-                head = prependToLL(head, arr[x]);
-            } else{
-                head = llInsertInAscendingOrder(head, arr[x]);
-            }
-        }
-    }
-    double* returnedArray = arrayFromLL(head);
-    freeLL(head);
-    return returnedArray;
-}
-
 double* merge2Arrays(double arr1[], int size1, double arr2[], int size2){
     double* returnedArray = (double*)mallocWrapper(sizeof(double)*(size1+size2));
     for(int x = 0; x<size1+size2; x++){
@@ -90,6 +73,11 @@ double* merge2Arrays(double arr1[], int size1, double arr2[], int size2){
     return returnedArray;
 }
 
-int sizeOfArray(double arr[]){
-    return sizeof(arr)/sizeof(double);
+int alreadySorted(double arr[], int size){
+  for(int x = 0; x<size-1; x++){
+    if(arr[x]>arr[x+1]){
+      return 0;
+    }
+  }
+  return 1;
 }

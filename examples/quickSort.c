@@ -20,7 +20,6 @@ int main(){
     double* sortedArr = quickSort(arr, size);
     printArray(sortedArr, size);
 
-    printf("Size of Original %d & size of Sorted %d\n", sizeOfArray(arr), sizeOfArray(sortedArr));
     freeWrapper(arr);
     freeWrapper(sortedArr);
 
