@@ -4,16 +4,20 @@
 #include "../sorting/quickSort.h"
 #include "../helperLibs/arrayFuncs.h"
 #include "../helperLibs/memoryManage.h"
-int main(){
+#include <string.h>
+int main(int argv, char** argc){
+    int size, maxNum;
     srand(time(NULL));
-    int size;
+    if(argv==3){
+        size = atoi(argc[1]);
+        maxNum = atoi(argc[2]);
+    } else{
     printf("Size of array? ");
     scanf("%d", &size);
 
-    int maxNum;
     printf("Max num? ");
     scanf("%d", &maxNum);
-
+    }
     double* arr = randomArray(size, maxNum);
     printArray(arr, size);
 
